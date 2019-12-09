@@ -1,0 +1,15 @@
+const { spawn } = require("child_process");
+
+const service = spawn("node", ["index.js"]);
+
+service.stdout.on("data", data => {
+  console.log(`stdout: ${data}`);
+});
+
+service.stdin.setEncoding("utf-8");
+
+setInterval(() => {
+  service.stdin.write(
+    JSON.stringify({ action: "play", payload: { filePath: "test/sqek.mp3" } })
+  );
+}, 1000);
